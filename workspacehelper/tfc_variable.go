@@ -143,7 +143,7 @@ func generateUpdateVariableList(specTFCVariables []*tfc.Variable, workspaceVaria
 }
 
 // CheckVariables creates, updates, or deletes variables as needed
-func (t *TerraformCloudClient) CheckVariables(workspace string, specTFCVariables []*tfc.Variable) (bool, error) {
+func (t *TerraformCloudClient) CheckVariables(workspace string, specVariables []*v1alpha1.Variable) (bool, error) {
 	tfcWorkspace, err := t.Client.Workspaces.Read(context.TODO(), t.Organization, workspace)
 	if err != nil {
 		return false, err
@@ -152,6 +152,7 @@ func (t *TerraformCloudClient) CheckVariables(workspace string, specTFCVariables
 	if err != nil {
 		return false, err
 	}
+	specTFCVariables := MapToTFCVariable(specVariables)
 	if err := t.deleteVariablesFromTFC(specTFCVariables, workspaceVariables); err != nil {
 		return false, err
 	}

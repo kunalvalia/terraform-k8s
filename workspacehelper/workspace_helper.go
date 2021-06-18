@@ -288,8 +288,7 @@ func (r *WorkspaceHelper) updateVariables(instance *appv1alpha1.Workspace) (bool
 		}
 	}
 
-	specTFCVariables := MapToTFCVariable(instance.Spec.Variables)
-	updatedVariables, err := r.tfclient.CheckVariables(workspace, specTFCVariables)
+	updatedVariables, err := r.tfclient.CheckVariables(workspace, instance.Spec.Variables)
 	if err != nil {
 		r.reqLogger.Error(err, "Could not update variables")
 		return false, err
